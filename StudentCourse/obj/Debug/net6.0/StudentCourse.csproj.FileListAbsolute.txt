@@ -1,0 +1,15 @@
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\bin\Debug\net6.0\StudentCourse.exe
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\bin\Debug\net6.0\StudentCourse.deps.json
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\bin\Debug\net6.0\StudentCourse.runtimeconfig.json
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\bin\Debug\net6.0\StudentCourse.dll
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\bin\Debug\net6.0\ref\StudentCourse.dll
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\bin\Debug\net6.0\StudentCourse.pdb
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\obj\Debug\net6.0\StudentCourse.csproj.AssemblyReference.cache
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\obj\Debug\net6.0\StudentCourse.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\obj\Debug\net6.0\StudentCourse.AssemblyInfoInputs.cache
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\obj\Debug\net6.0\StudentCourse.AssemblyInfo.cs
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\obj\Debug\net6.0\StudentCourse.csproj.CoreCompileInputs.cache
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\obj\Debug\net6.0\StudentCourse.dll
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\obj\Debug\net6.0\ref\StudentCourse.dll
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\obj\Debug\net6.0\StudentCourse.pdb
+C:\Users\guoxuey\RiderProjects\StudentCourse\StudentCourse\obj\Debug\net6.0\StudentCourse.genruntimeconfig.cache
