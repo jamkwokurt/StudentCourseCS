@@ -47,26 +47,52 @@ public class Lecturer
         
     }
 
-    public void DoMarking(Course course)
+    public void DoMarking()
     {
-        if (!course.IsMarked)
+        if (_courses.Count != 0)
         {
-           foreach (Student student in course.Students)
-           {
-               Console.WriteLine("Student name: " + student.Name + " id: " + student.Id + " please input mark:");
-               int mark = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
-               if (mark > 100 || mark < 0)
-               {
-                   Console.WriteLine("Invalid marking; mark must be less than or equal to 100 and greater than or equal to 0.");
-               }
-               student.Marks.Add(course.Name,mark);
-           }
-
-           course.IsMarked = true;
+            Console.WriteLine("You're marking as " + _name + " and course you teach listed below: ");
+            for (int i = 0; i < _courses.Count; i++)
+            {
+                Console.Write(i + 1 + ". " + _courses[i].Name + " ");
+                Console.WriteLine("\nPlease select a course to mark:");
+                int selection = Int32.Parse(Console.ReadLine());
+                if (selection > 0 && selection < _courses.Count + 1)
+                {
+                    Course course = _courses[selection - 1];
+                    if (!course.IsMarked)
+                    {
+                        foreach (Student student in course.Students)
+                        {
+                            Console.WriteLine("Student name: " + student.Name + " id: " + student.Id + " please input mark:");
+                            int mark = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+                            if (mark <= 100 && mark >= 0)
+                            {
+                                student.Marks.Add(course.Name,mark);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid marking; mark must be less than or equal to 100 and greater than or equal to 0.");
+                            }
+                       
+                        }
+               
+                        course.IsMarked = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Course is already marked");
+                    }  
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input");
+                }
+            }
         }
         else
         {
-            Console.WriteLine("Course is already marked");
+            Console.WriteLine("No course on record");
         }
         
     }

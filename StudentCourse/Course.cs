@@ -6,7 +6,6 @@ public class Course
 {
     private string _name;
     private static int lastId = 0;
-    private int _points;
     private int _limits;
     private static double _roomCostPerPoint = 500;
     private List<Lecturer> _lecturers = new List<Lecturer>();
@@ -20,7 +19,8 @@ public class Course
         _name = name;
         Id = GenerateId();
         _department = department;
-        _points = points;
+        department.Courses.Add(this);
+        Points = points;
         _limits = limits;
         Students = new List<Student>();
         IsMarked = false;
@@ -67,21 +67,7 @@ public class Course
 
     public List<Student> Students { get; private set; }
 
-    public int Points
-    {
-        get => _points;
-
-        set  {
-            if (IsValidPoint(value))
-            {
-                _points = value;
-            }
-            else
-            {
-                Console.WriteLine("Invalid point input; course can only be worth 15, 20, 30, 40, 45, 60 points");
-            }
-        }
-    }
+    public int Points { get; set; }
 
     public bool IsMarked { get; set; }
 
@@ -105,9 +91,8 @@ public class Course
         if (this.Students.Count < this._limits)
         {
             Students.Add(student);
-            student.addCourse(this);
             Console.WriteLine("Course " + this._name + " has enrolled " + student.Name);
-            student.CoursesEnrolled.Add(this);
+            student.addCourse(this);
             Console.WriteLine(student.Name + " is enrolled in " + this._name);
         }
         else
@@ -121,12 +106,12 @@ public class Course
     {
         double currentProfit = Profit;
         Console.WriteLine("Current profit from student tuition fee: " + currentProfit);
-        _roomFeeTotal = _roomCostPerPoint * _points;
+        _roomFeeTotal = _roomCostPerPoint * Points;
         Console.WriteLine("Room cost Total: " + _roomFeeTotal);
         foreach (Lecturer lecturer in _lecturers)
         {
-            _lecturerPayTotal += lecturer.HourlyRate * _points * 10;
-            Console.WriteLine(lecturer.Name + ":" + lecturer.HourlyRate * _points + " Lecture Cost Total: " + _lecturerPayTotal);
+            _lecturerPayTotal += lecturer.HourlyRate * Points * 10;
+            Console.WriteLine(lecturer.Name + ":" + lecturer.HourlyRate * Points + " Lecture Cost Total: " + _lecturerPayTotal);
         }
 
         Profit = currentProfit - _roomFeeTotal - _lecturerPayTotal;
@@ -138,6 +123,7 @@ public class Course
     {
         if (Students != null)
         {
+            Console.WriteLine("Mark for students enrolled in " + _name + " below: ");
             foreach (Student student in Students)
             {
                 Console.WriteLine("Student name: " + student.Name + " id: " + student.Id + " mark: " + student.Marks[this._name]);

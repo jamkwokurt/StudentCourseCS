@@ -43,8 +43,14 @@ public class MainEntry
         Console.WriteLine("SWEN 504 points: "+swen504.Points);
         Console.WriteLine(swen504.CalculateProfit());
         
-        michael.DoMarking(swen501);
+        michael.DoMarking();
+        karsten.DoMarking();
+        ali.DoMarking();
         
+        swen504.GetAllStudentMarks();
+        yuri.GetAllCourseMarks();
+        deptEngineering.CompareGPA();
+
     }
 
     

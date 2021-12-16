@@ -60,12 +60,12 @@ public class Department
         {
             gpaSum += gpa;
         }
-
+        
         double gpaAve = gpaSum / _courses.Count;
         
-        var higher = new List<string>();
-        var equal = new List<string>();
-        var lower = new List<string>();
+        List<string> higher = new List<string>();
+        List<string> equal = new List<string>();
+        List<string> lower = new List<string>();
         _result.Add("higher",higher);
         _result.Add("equal",equal);
         _result.Add("lower",lower);
