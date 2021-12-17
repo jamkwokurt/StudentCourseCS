@@ -1,11 +1,13 @@
-﻿namespace StudentCourse;
+﻿using System.Collections;
+
+namespace StudentCourse;
 
 
 public class MainEntry
 {
-    private List<Department> _department = new List<Department>();
+    private List<Department> _departments = new List<Department>();
     private List<Course> _courses = new List<Course>();
-    private List<Lecturer> _lecturers = new List<Lecturer>();
+    IDictionary<string, Lecturer> _lecturerMap = new Dictionary<string, Lecturer>();
     private List<Student> _students = new List<Student>();
     public MainEntry()
     {
@@ -61,7 +63,7 @@ public class MainEntry
     public void AddData()
     {
         Department deptEngineering = new Department("Engineering", 70.13, 294.90);
-        _department.Add(deptEngineering);
+        _departments.Add(deptEngineering);
         
         Course swen501 = new Course("SWEN501",deptEngineering,15,50);
         _courses.Add(swen501);
@@ -70,12 +72,12 @@ public class MainEntry
         Course swen504 = new Course("SWEN504",deptEngineering,60,50);
         _courses.Add(swen504);
         
-        Lecturer michael = new Lecturer("Michael", 35, 2, 4);
-        _lecturers.Add(michael);
-        Lecturer karsten = new Lecturer("Karsten", 40, 1, 4);
-        _lecturers.Add(karsten);
+        Lecturer michael = new Lecturer("Michael", 35, 1, 4);
+        _lecturerMap.Add("Michael",michael);
+        Lecturer karsten = new Lecturer("Karsten", 40, 2, 4);
+        _lecturerMap.Add("Karsten",karsten);
         Lecturer ali = new Lecturer("Ali", 30, 3, 4);
-        _lecturers.Add(ali);
+        _lecturerMap.Add("Ali",ali);
         
         Student yuri = new Student("Yuri", false,10);
         _students.Add(yuri);
@@ -88,78 +90,107 @@ public class MainEntry
 
     public void AssignLecturer()
     {
-        foreach(Lecturer lecturer in _lecturers)
+        foreach(Lecturer lecturer in _lecturerMap.Values)
         {
-            Console.WriteLine("Please select course for " + lecturer.Name);
+            Console.WriteLine("Please select course to assign to " + lecturer.Name + " (separate by space for multiple course)");
             for (int i = 0; i < _courses.Count; i++)
             {
                 Console.WriteLine((i+1) + ". " + _courses[i].Name );
             }
-            int selection = Int32.Parse(Console.ReadLine());
-            if (selection > 0 && selection < _courses.Count + 1)
+            string[] selections = Console.ReadLine().Split(" ");
+            foreach (string index in selections)
             {
-                lecturer.TeachCourse(_courses[selection - 1]);
-            }
-            else
-            {
-                Console.WriteLine("Invalid selection");
+                int selection = Int32.Parse(index);
+                if (selection > 0 && selection < _courses.Count + 1)
+                {
+                    lecturer.TeachCourse(_courses[selection - 1]);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection");
+                }
             }
         }
-        
-        // michael.TeachCourse(swen501);
-        // karsten.TeachCourse(swen502);
-        // ali.TeachCourse(swen504);
+
     }
 
     public void EnrolStudent()
     {
-        foreach (Student student in _students)
+        for (int i = 0; i < _departments.Count; i++)
         {
-            Console.WriteLine("Please add course for " + student.Name);
+            Console.WriteLine((i+1) + ". " + _departments[i].Name );
+        }
+        Console.WriteLine("Please select department first: ");
+        int selectionDpt = Int32.Parse(Console.ReadLine());
+        if (selectionDpt > 0 && selectionDpt < _departments.Count + 1)
+        {
             for (int i = 0; i < _courses.Count; i++)
             {
                 Console.WriteLine((i+1) + ". " + _courses[i].Name );
             }
-            int selection = Int32.Parse(Console.ReadLine());
-            if (selection > 0 && selection < _courses.Count + 1)
+            Console.WriteLine("Please select course to continue: ");
+            int selectionCrs = Int32.Parse(Console.ReadLine());
+            if (selectionCrs > 0 && selectionCrs < _courses.Count + 1)
             {
-                _courses[selection - 1].Enroll(student);
+                Course course = _courses[selectionCrs - 1];
+                foreach (Student student in _students)
+                {
+                    Console.Write(student.Id + ". " + student.Name + " ");
+                }
+                Console.WriteLine("Please enter student id using space to separate:");
+                string[] ids = Console.ReadLine().Split(" ");
+                IDictionary<string, Student> studentIDMap = new Dictionary<string, Student>();
+                foreach (Student student in _students)
+                {
+                    studentIDMap.Add(student.Id.ToString(), student);    
+                }
+
+                if (studentIDMap.Values.Count != 0)
+                {
+                  foreach (string id in ids)
+                  {
+                      Student student = studentIDMap[id];
+                      course.Enroll(student);
+                  }  
+                }
+                else
+                {
+                    Console.WriteLine("Invalid ID input");
+                }
             }
             else
             {
-                Console.WriteLine("Invalid selection");
+                Console.WriteLine("Invalid course selection");
             }
         }
-        // swen501.Enroll(yuri);
-        // swen501.Enroll(rhea);
-        // swen501.Enroll(penny);
-        // swen502.Enroll(yuri);
-        // swen502.Enroll(rhea);
-        // swen502.Enroll(penny);
-        // swen504.Enroll(yuri);
-        // swen504.Enroll(rhea);
-        // swen504.Enroll(penny);
+        else
+        {
+            Console.WriteLine("Invalid department selection");
+        }
+        
     }
-
+    
     public void RecordGrades()
     {
         Console.WriteLine("Please enter lecturer name and id seperated by space to start marking: ");
         string[] input = Console.ReadLine().Split(" ");
-        foreach (Lecturer lecturer in _lecturers)
+
+        if (_lecturerMap.ContainsKey(input[0]))
         {
-            if (input[0].Equals(lecturer.Name) && input[1].Equals(lecturer.Id.ToString()))
+            foreach (Lecturer lecturer in _lecturerMap.Values)
             {
-                lecturer.DoMarking();
-            }
-            else
-            {
-                Console.WriteLine("Lecturer information not found. Please try again");
-            }
+                if (input[0].Equals(lecturer.Name) && input[1].Equals(lecturer.Id.ToString()))
+                {
+                    lecturer.DoMarking();
+                }
+            } 
+        }
+        else
+        {
+            Console.WriteLine("No lecturer found with given information");
         }
         
-        // michael.DoMarking();
-        // karsten.DoMarking();
-        // ali.DoMarking();
+        
     }
 
     public void PrintCourseGrades()
@@ -201,14 +232,14 @@ public class MainEntry
     public void CompareGPA()
     {
         Console.WriteLine("Please select department to start:");
-        for (int i = 0; i < _department.Count; i++)
+        for (int i = 0; i < _departments.Count; i++)
         {
-            Console.WriteLine((i+1) + ". " + _department[i].Name );
+            Console.WriteLine((i+1) + ". " + _departments[i].Name );
         }
         int selection = Int32.Parse(Console.ReadLine());
-        if (selection > 0 && selection < _department.Count + 1)
+        if (selection > 0 && selection < _departments.Count + 1)
         {
-            _department[selection - 1].CompareGPA();
+            _departments[selection - 1].CompareGPA();
         }
         else
         {
@@ -240,6 +271,4 @@ public class MainEntry
         new MainEntry();
     }
 }
-
-
 

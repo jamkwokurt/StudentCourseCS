@@ -45,6 +45,7 @@ public class Lecturer
         {
             this._courses.Add(course); 
             course.Lecturers.Add(this);
+            Console.WriteLine(_name + " is assigned to teach " + course.Name);
         }
         else
         {
