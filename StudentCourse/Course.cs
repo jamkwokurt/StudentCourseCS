@@ -59,13 +59,7 @@ public class Course
         return Interlocked.Increment(ref lastId);
     }
 
-    public List<Student> Students1
-    {
-        get => Students;
-        set => Students = value ?? throw new ArgumentNullException(nameof(value));
-    }
-
-    public List<Student> Students { get; private set; }
+    public List<Student> Students { get; set; }
 
     public int Points { get; set; }
 

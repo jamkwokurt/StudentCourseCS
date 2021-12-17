@@ -23,6 +23,12 @@ public class Lecturer
         set => _name = value ?? throw new ArgumentNullException(nameof(value));
     }
 
+    public int Id
+    {
+        get => _id;
+        set => _id = value;
+    }
+
     public double HourlyRate { get; set; }
 
     public List<Course> Courses
