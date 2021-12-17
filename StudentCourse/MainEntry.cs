@@ -7,8 +7,10 @@ public class MainEntry
 {
     private List<Department> _departments = new List<Department>();
     private List<Course> _courses = new List<Course>();
-    IDictionary<string, Lecturer> _lecturerMap = new Dictionary<string, Lecturer>();
+    private IDictionary<string, Lecturer> _lecturerMap = new Dictionary<string, Lecturer>();
     private List<Student> _students = new List<Student>();
+    private IDictionary<string, Student> _studentIDMap = new Dictionary<string, Student>();
+    
     public MainEntry()
     {
         AddData();
@@ -81,10 +83,13 @@ public class MainEntry
         
         Student yuri = new Student("Yuri", false,10);
         _students.Add(yuri);
+        _studentIDMap.Add(yuri.Id.ToString(),yuri);
         Student rhea = new Student("Rhea", true,10);
         _students.Add(rhea);
+        _studentIDMap.Add(rhea.Id.ToString(),rhea);
         Student penny = new Student("Penny", true,10);
         _students.Add(penny);
+        _studentIDMap.Add(penny.Id.ToString(),penny);
 
     }
 
@@ -98,12 +103,12 @@ public class MainEntry
                 Console.WriteLine((i+1) + ". " + _courses[i].Name );
             }
             string[] selections = Console.ReadLine().Split(" ");
-            foreach (string index in selections)
+            foreach (string selection in selections)
             {
-                int selection = Int32.Parse(index);
-                if (selection > 0 && selection < _courses.Count + 1)
+                int index = Int32.Parse(selection) - 1;
+                if (index >= 0 && index < _courses.Count)
                 {
-                    lecturer.TeachCourse(_courses[selection - 1]);
+                    lecturer.TeachCourse(_courses[index]);
                 }
                 else
                 {
@@ -133,23 +138,18 @@ public class MainEntry
             if (selectionCrs > 0 && selectionCrs < _courses.Count + 1)
             {
                 Course course = _courses[selectionCrs - 1];
-                foreach (Student student in _students)
+                for (int i = 0; i < _students.Count; i++)
                 {
-                    Console.Write(student.Id + ". " + student.Name + " ");
+                    Console.Write(_students[i].Id + ". " + _students[i].Name + " ");
                 }
                 Console.WriteLine("Please enter student id using space to separate:");
                 string[] ids = Console.ReadLine().Split(" ");
-                IDictionary<string, Student> studentIDMap = new Dictionary<string, Student>();
-                foreach (Student student in _students)
-                {
-                    studentIDMap.Add(student.Id.ToString(), student);    
-                }
-
-                if (studentIDMap.Values.Count != 0)
+                
+                if (ids.Length != 0)
                 {
                   foreach (string id in ids)
                   {
-                      Student student = studentIDMap[id];
+                      Student student = _studentIDMap[id];
                       course.Enroll(student);
                   }  
                 }
@@ -160,12 +160,12 @@ public class MainEntry
             }
             else
             {
-                Console.WriteLine("Invalid course selection");
+                Console.WriteLine("Invalid course input");
             }
         }
         else
         {
-            Console.WriteLine("Invalid department selection");
+            Console.WriteLine("Invalid department input");
         }
         
     }

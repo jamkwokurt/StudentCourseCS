@@ -1,0 +1,6 @@
+Education,47.91,217.91
+Health,58.90,244.04
+Commerce,56.37,245.19
+Law,56.37,283.14
+Design,59.87,278.87
+Engineering,70.13,294.90

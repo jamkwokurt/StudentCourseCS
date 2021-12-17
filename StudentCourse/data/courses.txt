@@ -1,0 +1,3 @@
+SWEN501,Engineering,15,30
+SWEN502,Engineering,45,30
+SWEN504,Engineering,60,30
